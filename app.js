@@ -137,7 +137,6 @@ function findMexicanFood(allDishes) {
     // without having to step through the whole thing!
     alert("Found all Mexican dishes!  Check the console for full output.")
     return results
-}
 
 // <<<<<<<<<<<<<<<<< MAP & FILTER FUNCTIONS <<<<<<<<<<<<<<<<<
 
