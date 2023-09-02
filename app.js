@@ -143,39 +143,81 @@ function findMexicanFood(allDishes) {
 
 function findItalianFood(allDishes) {
     alert("Searching for Italian dishes...")
+    let results = allDishes.filter(function (el) {
+        if (el.cuisine === "Italian") {
+            return true;
+    }else{
+         return false;   
+    }
+});
     // TODO #2: Filter all dishes for those that have a cuisine type of Italian
     alert("Found all Italian dishes!  Check the console for full output")
+    return results
 }
 
 function searchCuisines(allDishes) {
-    alert("Searching for dishes by cuisine...")
-    // TODO #3: Gather user input for a cuisine to search for, then filter for all dishes matching this cuisine type
-    alert("Found all dishes matching the cuisine search term!  Check the console for full output")
+    let userInput = customPrompt("Choose Mexican, Italian, French, Irish or Vegetarian:")
+       let results = allDishes.filter(function (el) {
+        if (el.cuisine === userInput) {
+           return true;
+        }else{
+           return false;
+}});
+        // TODO #3: Gather user input for a cuisine to search for, then filter for all dishes matching this cuisine type
+        alert("Found all dishes matching the cuisine search term!  Check the console for full output")
+    return results
 }
-
 function searchIngredients(allDishes) {
-    alert("Searching for dishes by ingredient...")
+    let userInput = customPrompt("Search for dishes by ingredient: ")
+    let results = allDishes.filter(function (el) {
+        if (el.ingredients.includes(userInput)){
+           return true;
+        }else{
+           return false;
+}});
     // TODO #4: Gather user input for an ingredient to search for, then filter for all dishes that INCLUDE this ingredient in their ingredients array property
     alert("Found all dishes that contain the ingredient search term!  Check the console for full output")
+    return results
 }
 
 function generateCuisineDishName(allDishes) {
-    alert("Combining cuisine and dish names...")
+    let userInput = customPrompt("Search for dishes by cuisine and dish names: ")
+    let results = allDishes.filter(function (el) {
+        if (userInput.includes(el.name) && userInput.includes(el.cuisine)){
+           return true;
+        }else{
+            return false;
+           
+}});
     // TODO #5: Apply the concatenatorFunction to each dish in allDishes, then log to the console the modified result
+    let newDishes = []
+    for (let el in results) {
+        newDishes.push(el.cuisine +" " +el.name);
+        }
+
     alert("Successfully combined cuisine and dish names!  Check the console for full output.")
+    return results
 }
 
 // <<<<<<<<<<<<<<<<< EMAIL AND TEXT MARKETING MESSAGES <<<<<<<<<<<<<<<<<
 
-function emailMessage(dishOfTheDay) {
+    function emailMessage(dishOfTheDay){
     // TODO #6: Adjust the message below so the cuisine and name of the dish are displayed
+    var cuisine = "" 
+    for (let dish in dishes) {
+    if (dish.name === dishOfTheDay){
+        cuisine = dish.cuisine
+
+       }}
+
+
     let message = `
     Hello valued customer!
 
     Thank you for subscribing to email alert messages!
     Today's Dish of the day is:
 
-    <DISH OF THE DAY HERE>
+    `+ dishOfTheDay.cuisine + " " + dishOfTheDay.name+`
 
     We hope to see you in soon!
 
@@ -186,9 +228,17 @@ function emailMessage(dishOfTheDay) {
     `;
 
     return message;
-}
+   }
 
 function textMessage(dishOfTheDay) {
+
+    var cuisine = "" 
+    for (let dish in dishes){
+    if (dish.name === dishOfTheDay){
+        cuisine = dish.cuisine;
+
+       }}
+
     // TODO #6: Adjust the message below so the cuisine and name of the dish are displayed
     let message = `
     Master Chef -
@@ -196,7 +246,7 @@ function textMessage(dishOfTheDay) {
     This is an automated text message alert.
     Today's Dish of the day is:
 
-    <DISH OF THE DAY HERE>
+    `+ dishOfTheDay.cuisine + " " + dishOfTheDay.name+`
 
     We hope to see you in soon!
 
@@ -213,8 +263,10 @@ function generateMarketingMessage(dishOfTheDay, messageTypeCallback) {
     alert('Sending final message to all 389 customers...')
     // TODO #7: Call the passed-in callback function on the dishOfTheDay.  Save the result as a variable
     // Then, log that result to the console
-    alert('Success!  Check the console for a copy of the final marketing message!')
-}
+    let results = messageTypeCallback(dishOfTheDay);
+    console.log(results);
+    alert('Success! Check the console for a copy of the final marketing message!')
+   }
 
 // <<<<<<<<<<<<<<<<< CUSTOM PROMPT FUNCTION <<<<<<<<<<<<<<<<<
 
@@ -238,8 +290,8 @@ function runApp(allDishes, specialDish) {
     Press 5 to see a list of cuisines & dish names.
     Press 6 to send a marketing text message for Today's Special Dish.
     Press 7 to send a marketing email message for Today's Special Dish.
-    Enter "Exit" to quit the application.`, ["1", "2", "3", "4", "5", "6", "7", "Exit"])
-    switch (userChoice) {
+    Enter "Exit" to quit the application.`, ["1", "2", "3", "4", "5", "6", "7", "Exit"]);
+        switch (userChoice) {
         case "1":
             let mexicanDishes = findMexicanFood(allDishes)
             console.log(mexicanDishes)
@@ -263,10 +315,12 @@ function runApp(allDishes, specialDish) {
         case "6":
             // TODO #8: Call the appropriate function to generate the marketing text message.  
             // You will need to provide today's dish and the appropriate callback function as arguments!
+            generateMarketingMessage(todaysSpecialDish, textMessage)
             break
         case "7":
             // TODO #9: Call the appropriate function to generate the marketing email message.  
             // You will need to provide today's dish and the appropriate callback function as arguments!
+            generateMarketingMessage(todaysSpecialDish, emailMessage)
             break
         case "Exit":
             alert("Thank you for using the Recipe Searching Application!  Goodbye!")
@@ -277,4 +331,5 @@ function runApp(allDishes, specialDish) {
     }
 }
 
-runApp(dishes, todaysSpecialDish)
+
+runApp(dishes,todaysSpecialDish);
